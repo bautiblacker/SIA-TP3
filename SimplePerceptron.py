@@ -3,70 +3,57 @@
 import random
 import pdb
 import numpy as np
-import math
-import matplotlib.pyplot as plt
+from Graph import Graph
+from Functions import Function as func
 
 
 class SimplePerceptron:
     weights = []
 
-    def __init__(self, learning_grade, entries, output, bias, steps):
+    def __init__(self, learning_grade, entries, output, bias, steps, isLinear = True, betha = 0.5, function):
         self.learning_grade = learning_grade
-        self.entries = entries
         self.steps = steps
         self.output = output
         self.entry_cols = len(entries[0])
         self.bias = bias
         self.weights_initializer()
+        self.isLinear = isLinear
+        self.betha = betha
+        self.function = Function(function)
+        self.entries = self.get_entries(entries)
 
-    def draw_entries(self):
-        for e in self.entries:
-            x = e[0]
-            y = e[1]
-            print(1)
-        return
+    def get_entries(self, entrie):
+        if self.isLinear:
+            return self.normalize_entries(entries)
+        return entries
 
-    def graph(self, min_weights):
-        x = np.linspace(-2, 2, len(sp1.weights))
-        class_one_x = []
-        class_one_y = []
-        class_two_x = []
-        class_two_y = []
-        for i in range(0, len(self.entries)):
-            if self.output[i] == 1:
-                class_one_x.append(self.entries[i][0])
-                class_one_y.append(self.entries[i][1])
-                print('entro 1')
-            else:
-                print('entro')
-                class_two_x.append(self.entries[i][0])
-                class_two_y.append(self.entries[i][1])
+    # def normalize_entries(self, entrie):
 
-        plt.plot(class_one_x, class_one_y, 'ro')
-        plt.plot(class_two_x, class_two_y, 'go')
-        plt.plot(x, -((self.weights[0]*x + self.bias)/self.weights[1]), '-b')
-        plt.show()
-        return
+
 
     def weights_initializer(self):
         for idx in range(self.entry_cols):
             SimplePerceptron.weights.append(round(random.random(), 5))
 
-    def update_wights(self, delta_weights):
-        for i in range(self.entry_cols):
-            self.weights[i] += delta_weights[i]
+    def update_wights(self, update, entry):
+        # si no es linear -> learning_grade*(salida - activacion)*g'(h)*x_i (!!)
+        if self.isLinear:
+            delta_weights = np.dot(update, entry)
+            return np.add(self.weights, delta_weights)
+
 
     def get_excitement(self, entry):
         total = 0
         for e, w in zip(entry, self.weights):
             total += (e * w)
-
         return total
 
     def get_activation(self,excitement):
+        # checkear si es linear o no. Si lo es usar g(x) si no usar lo normal
+        if self.isLinear:
+            return self.function.calculate(self.betha, excitement)
         if excitement < 0.0:
             return -1.0
-
         return 1.0
 
     def predict(self, entry):
@@ -88,14 +75,13 @@ class SimplePerceptron:
                 update = self.learning_grade * (self.output[idx] - prediction)
                 self.bias += update
                 error += int(update != 0.0)
-                delta_weights = np.dot(update, self.entries[idx])
-                self.weights = np.add(self.weights, delta_weights)
+                self.weights = update_weights(update, entries[idx])
                 if error < error_min:
                     error_min = error
                     min_weights = self.weights
             i += 1
             all_errors.append(error)
-            self.graph(min_weights)
+            Graph.graph(min_weights, self.entries, self.output)
         return
 
 
