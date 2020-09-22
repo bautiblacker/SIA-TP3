@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-
 import random
 import pdb
+from FileParser import FileParser as fp
 import numpy as np
 from Graph import Graph
 from Functions import Function
@@ -21,20 +21,15 @@ class SimplePerceptron:
         self.isLinear = isLinear
         self.betha = betha
         self.function = Function(function)
-        self.entries = self.get_entries(entries)
+        self.entries = entries
 
-    def get_entries(self, entrie):
-        if self.isLinear:
-            return entries
-        return self.normalize_entries(entries)
+    def normalize_output(self, l_outputs):
+        min_value = min(l_outputs)
+        max_value = max(l_outputs)
+        for i in range(len(l_outputs)):
+            l_outputs[i] = (l_outputs[i] - min_value)/(max_value - min_value)
 
-    def normalize_entries(self, l_entries):
-        for e in l_entries:
-            min_value = min(e)
-            max_value = max(e)
-            for i in range(len(e)):
-                e[i] = (e[i] - min_value)/(max_value - min_value)
-        return l_entries
+        return l_outputs
 
 
     def weights_initializer(self):
@@ -73,24 +68,24 @@ class SimplePerceptron:
     def perform(self):
         i = 0
         size = len(entries)
-        error = 0
-        all_errors = []
+        error = 100
+        all_errors = [[]]
         min_weights = []
         error_min = 2 * size
 
-        while error > 0 and i < self.steps :
-            error = 0
+        while error > 0.001 and i < self.steps :
             for idx in range(size):
                 prediction = self.predict(entries[idx])
                 update = self.learning_grade * (output[idx] - prediction)
                 self.bias += update
-                error += self.calculate_error(error, update)
+                error = self.calculate_error(error, update)
                 self.weights = self.update_weights(update, entries[idx])
                 if error < error_min:
                     error_min = error
                     min_weights = self.weights
-                all_errors.append(error)
+                all_errors[i].append(error)
             i += 1
+            all_errors.append([])
         if self.isLinear:
             Graph.graph_linear(min_weights, self.weights, self.bias, self.entries, self.output)
         else:
@@ -102,15 +97,8 @@ class SimplePerceptron:
 
 # entries = [[-1, 1], [1, -1], [-1, -1], [1, 1]]
 # output = [-1, -1, -1, 1]
-entries = []
-output = []
-entries_file = open("conjunto-entrenamiento-ej2.txt", "r")
-for l_i in entries_file:
-    entries.append(list(map(float, l_i.split())))
-
-output_file = open("salida-esperada-ej2.txt", "r")
-for l_i in output_file:
-    output.append(float(l_i.split()[0]))
-
-sp1 = SimplePerceptron(0.3, entries, output, 0.4, 100, False, 0.5)
+entries = fp.entries_parser()
+output = fp.outputs_parser()
+    
+sp1 = SimplePerceptron(0.6, entries, output, 0.5, 100, False, 0.7)
 sp1.perform()
