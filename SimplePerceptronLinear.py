@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import random
-import pdb
-from FileParser import FileParser as fp
 import numpy as np
 from Graph import Graph
 from Functions import Function
@@ -20,7 +18,7 @@ class SimplePerceptronLinear:
         self.function = Function(function)
         self.isLinear = isLinear
 
-    def weights_initializer(self):
+    def weigFhts_initializer(self):
         for idx in range(self.entry_cols):
             multiplier = np.random.choice([-1, 1])
             SimplePerceptronLinear.weights.append(multiplier*round(random.random(), 5))

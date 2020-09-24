@@ -7,7 +7,7 @@ from MultilayerPerceptron import MultilayerPerceptron
 from Graph import Graph
 class ParityResolver:
 
-    with open('configurations.json') as config:
+    with open('settings.json') as config:
 
         configuration = json.load(config)
 

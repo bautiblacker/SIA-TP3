@@ -8,7 +8,7 @@ import json
 
 
 class XorResolver:
-    with open('SIA-TP3/configurations.json') as config:
+    with open('settings.json') as config:
 
         configuration = json.load(config)
 
@@ -16,7 +16,7 @@ class XorResolver:
         hidden_nodes_qty = 2
         output_nodes_qty = 1
         lr = configuration['multilayer_lr']
-        
+
         mp = MultilayerPerceptron(input_nodes_qty,hidden_nodes_qty,output_nodes_qty,lr)
 
         pa_entries = [('1 0'),('0 1'), ('0 0'), ('1 1')]

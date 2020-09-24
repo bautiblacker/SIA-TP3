@@ -9,7 +9,7 @@ from FunctionType import FunctionsType
 
 class PerceptronSimpleMain:
 
-     with open('configurations.json') as config:
+     with open('settings.json') as config:
 
         configuration = json.load(config)
 
