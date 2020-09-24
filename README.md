@@ -68,6 +68,8 @@ Para ejecutar la otra opcion:
 python3 ParityResolver.py
 ```
 
+Como respuesta, se imprimiran en la terminal, las salidas calculadas con los pesos mas entrenados de cada entrada ingresada.
+
 
 ## Autores
 * Ignacio Grasso - [igrasso](https://github.com/igrasso98)
