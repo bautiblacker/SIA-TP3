@@ -26,7 +26,8 @@ class SimplePerceptron:
 
     def weights_initializer(self):
         for idx in range(self.entry_cols):
-            SimplePerceptron.weights.append(round(random.random(), 5))
+            multiplier = np.random.choice([-1, 1])
+            SimplePerceptron.weights.append(multiplier*round(random.random(), 5))
 
     def update_weights(self, update, entry):
         delta_weights = np.dot(update, entry)
@@ -50,41 +51,49 @@ class SimplePerceptron:
 
     def perform(self):
         i = 0
-        error = 100
-        first_error = 100
+        error = -1
+        first_error = 0
         size = len(entries)
         all_errors = []
         first_errors = []
         min_weights = []
         error_min = 2 * size
         predictions = []
+        total_error = -1
 
-        while error > 0 and i < self.steps :
+        while abs(total_error) > 0 and i < self.steps :
+            total_error = 0
             for idx in range(size):
                 prediction = self.predict(entries[idx])
-                temp_error = (output[idx] - prediction)
-                update = self.learning_grade * temp_error
-                entries[idx][-1] += update
-                error += temp_error
+                error = output[idx] - prediction
+                print(error)
+                update = self.learning_grade * error
                 if idx == 0: first_error = error
                 self.weights = self.update_weights(update, entries[idx])
                 if error < error_min:
                     error_min = error
                     min_weights = self.weights
-                print('output-->' + str(output[idx]))
-                print('perceptron-->' + str(prediction))
+                total_error += abs(error)
             all_errors.append(error)
             first_errors.append(first_error)
             predictions.append(prediction)
             print('-----')
             i += 1
-            
-        Graph.graph_linear(min_weights, self.weights, self.entries, self.output)
+
+        print(len(all_errors))
+        final_predictions = []
+        for e in entries:
+            final_predictions.append(self.predict(e))
+
+        for i in range(len(output)):
+            print("[" + str(self.output[i]) + " | " + str(final_predictions[i]) + "]")
+
+        Graph.graph_linear(self.weights, self.entries, self.output)
 
 
 ######################## __main__ ############################
 
 entries = [[-1, 1], [1, -1], [-1, -1], [1, 1]]
-output = [-1, -1, -1, 1]
+output = [1, 1, -1, 1]
 sp1 = SimplePerceptron(0.003, entries, output, 100)
 sp1.perform()

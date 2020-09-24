@@ -14,8 +14,9 @@ class FileParser:
             for l_i in entries_file:
                 entry = list(map(float, l_i.split()))
                 # #  ver esto (!!) #
-                entry.append(1.0)
+                entry.append(1)
                 # # # # # # # # # #
+                entries.append(entry)
 
             return entries
 
