@@ -1,0 +1,6 @@
+{
+    "multilayer_lr": 1,
+    "multilayer_hidden_nodes_parity": 6,
+    "multilayer_max_training_epochs": 5000,
+    "multilayer_test_qty": 5
+}
