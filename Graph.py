@@ -4,8 +4,8 @@ import numpy as np
 
 class Graph:
     @staticmethod
-    def graph_linear(min_weights, weights, entries, output):
-        x = np.linspace(-2, 2, len(min_weights))
+    def graph_linear(weights, entries, output):
+        x = np.linspace(-2, 2, len(weights))
         class_one_x = []
         class_one_y = []
         class_two_x = []
@@ -22,10 +22,15 @@ class Graph:
         plt.plot(class_two_x, class_two_y, 'go')
         plt.plot(x, -((weights[2] + weights[0] * x) / weights[1]), '-b')
         plt.show()
+
         return
 
     @staticmethod
-    def graph_no_linear(errors, first_errors):
-        plt.plot(range(0, len(errors)), errors, 'g')
-        # plt.plot(range(0, len(first_errors)), first_errors, 'r')
+    def graph_no_linear(errors_linear, isLinear):
+        plt.xlabel("Iteraciones")
+        plt.ylabel("Error")
+        if isLinear:
+            plt.plot(range(0, len(errors_linear)), errors_linear, 'go-')
+        else:
+            plt.plot(range(0, len(errors_linear)), errors_linear, 'ro-')
         plt.show()
