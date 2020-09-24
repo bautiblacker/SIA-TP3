@@ -4,10 +4,10 @@ import json
 import numpy as np
 from FileParser import FileParser as fp
 from MultilayerPerceptron import MultilayerPerceptron
-
+from Graph import Graph
 class ParityResolver:
 
-    with open('SIA-TP3/configurations.json') as config:
+    with open('configurations.json') as config:
 
         configuration = json.load(config)
 
@@ -27,5 +27,13 @@ class ParityResolver:
             x = random.randint(0,training_qty)
             mp.train(np.matrix(pb_entries[x]).transpose(),np.matrix(pb_targets[x]).transpose())
 
+        plot_entries = []
         for pb_e in pb_entries:
+            plot_entries.append(mp.feed_forward(np.matrix(pb_e).transpose()).item(0))
             print(mp.feed_forward(np.matrix(pb_e).transpose()))
+
+        Graph.graph_multilayer_perceptron(plot_entries)
+
+
+
+

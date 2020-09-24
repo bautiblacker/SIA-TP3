@@ -34,3 +34,17 @@ class Graph:
         else:
             plt.plot(range(0, len(errors_linear)), errors_linear, 'ro-')
         plt.show()
+
+    @staticmethod
+    def graph_multilayer_perceptron(entries):
+        x = np.linspace(-0.05,1,10)
+        y = 0*x + 0.5
+        plt.plot(x,y, '--r')
+        x_points = []
+        y_points = []
+        for e in entries:
+            x_points.append(e)
+            y_points.append(round(e))
+        plt.plot(x_points, y_points, 'go')
+        plt.show()
+

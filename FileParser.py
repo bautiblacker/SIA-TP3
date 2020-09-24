@@ -38,7 +38,7 @@ class FileParser:
 
         @staticmethod
         def mlp_entries_parser(rows, cols):
-            entries_file = open('SIA-TP3/TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
+            entries_file = open('TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
             entries = []
             count = 0
             e = ''

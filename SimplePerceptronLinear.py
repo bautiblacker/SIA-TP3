@@ -53,7 +53,7 @@ class SimplePerceptronLinear:
     def calculate_error(self, error):
         return 0.5 * pow(error, 2)
 
-    def perform(self, _entries = None, _output = None):
+    def perform(self, _entries=None, _output=None):
         if _entries is None:
             _entries = self.entries
         if _output is None:
@@ -66,10 +66,9 @@ class SimplePerceptronLinear:
         error_min = 2 * size
         last_errors = []
         predictions = []
-        first_errors = []
         test_weights = self.weights.copy()
 
-        while abs(total_error) > 0.001 and i < self.steps :
+        while abs(total_error) > 0.001 and i < self.steps:
             total_error = 0
             for idx in range(size):
                 prediction = self.predict(_entries[idx], test_weights)
@@ -92,17 +91,16 @@ class SimplePerceptronLinear:
     def pick_training_sets(self, test_size):
         indexes = []
         for i in range(test_size):
-            indexes.append(np.random.randint(len(self.entries), size = test_size))
+            indexes.append(np.random.randint(len(self.entries), size=test_size))
 
         training_entries = []
         training_output = []
         for idx in range(len(indexes)):
-            index = indexes[idx]
             training_entries.append(self.entries[idx])
             training_output.append(self.output[idx])
         return [training_entries, training_output]
 
-    def test(self, test_size = 80):
+    def test(self, test_size=80):
         training_set = self.pick_training_sets(test_size)
         training_entries = training_set[0]
         training_output = training_set[1]

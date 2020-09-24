@@ -4,7 +4,7 @@ import math
 
 class Function:
     def __init__(self, f_type):
-        self.type = f_type.value.capitalize
+        self.type = f_type.value.upper()
 
     def calculate(self, betha, param):
         if self.type == FunctionsType.TANH:

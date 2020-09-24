@@ -2,5 +2,13 @@
     "multilayer_lr": 1,
     "multilayer_hidden_nodes_parity": 6,
     "multilayer_max_training_epochs": 5000,
-    "multilayer_test_qty": 5
+    "multilayer_test_qty": 5,
+
+    "learning_grade": 0.01,
+    "operation": "-",
+    "steps": 100,
+
+    "betha": 0.5,
+    "isLinear": "True",
+    "function": "tanh"
 }
