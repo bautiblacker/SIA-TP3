@@ -5,7 +5,7 @@
     "multilayer_test_qty": 5,
 
     "learning_grade": 0.01,
-    "operation": "OR",
+    "operation": "-",
     "steps": 100,
 
     "betha": 0.5,

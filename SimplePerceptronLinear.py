@@ -18,7 +18,7 @@ class SimplePerceptronLinear:
         self.function = Function(function)
         self.isLinear = isLinear
 
-    def weigFhts_initializer(self):
+    def weights_initializer(self):
         for idx in range(self.entry_cols):
             multiplier = np.random.choice([-1, 1])
             SimplePerceptronLinear.weights.append(multiplier*round(random.random(), 5))
@@ -98,7 +98,7 @@ class SimplePerceptronLinear:
             training_output.append(self.output[idx])
         return [training_entries, training_output]
 
-    def test(self, test_size=80):
+    def test(self, test_size=10):
         training_set = self.pick_training_sets(test_size)
         training_entries = training_set[0]
         training_output = training_set[1]
