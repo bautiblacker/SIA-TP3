@@ -26,13 +26,13 @@ class Graph:
         return
 
     @staticmethod
-    def graph_no_linear(errors_linear, isLinear):
+    def graph_no_linear(training_error_data, test_error_data):
         plt.xlabel("Iteraciones")
         plt.ylabel("Error")
-        if isLinear:
-            plt.plot(range(0, len(errors_linear)), errors_linear, 'go-')
-        else:
-            plt.plot(range(0, len(errors_linear)), errors_linear, 'ro-')
+        iterations = len(test_error_data)
+        
+        plt.plot(range(0, iterations), training_error_data, 'go-')
+        plt.plot(range(0, iterations), test_error_data, 'ro-')
         plt.show()
 
     @staticmethod

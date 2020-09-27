@@ -4,7 +4,7 @@ import json
 import numpy as np
 from FileParser import FileParser as fp
 from SimplePerceptron import SimplePerceptron
-from SimplePerceptronLinear import SimplePerceptronLinear
+from SimplePerceptronEJ2 import SimplePerceptronEJ2
 from FunctionType import FunctionsType
 
 class PerceptronSimpleMain:
@@ -30,10 +30,10 @@ class PerceptronSimpleMain:
                 output = [-1, -1, -1, 1]
             SimplePerceptron(learning_grade, entries, output, steps).perform()
         else:
-            entries = fp.entries_parser()
-            output = fp.outputs_parser()
-            spl = SimplePerceptronLinear(learning_grade, entries, output, steps, betha, FunctionsType[function], isLinear)
-            spl.test()
+            [data, test_data] = fp.data_parser()
+            spl = SimplePerceptronEJ2(learning_grade, data, test_data, steps, betha, FunctionsType[function], isLinear)
+            spl.perform()
+
 
 
 

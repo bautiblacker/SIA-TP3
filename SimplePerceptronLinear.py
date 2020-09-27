@@ -46,6 +46,7 @@ class SimplePerceptronLinear:
         if _weights is None:
             _weights = self.weights
         excitement = (self.get_excitement(entry, _weights) + entry[-1])
+        # excitement = (self.get_excitement(entry, _weights))
         return self.get_activation(excitement)
 
     def calculate_error(self, error):

@@ -1,28 +1,37 @@
+#!/usr/bin/env python3
 import numpy as np
 
 class FileParser:
         def _outputs_normalizer(outputs, max_value, min_value):
             for idx in  range(len(outputs)):
                 outputs[idx] = (outputs[idx] - min_value) / (max_value - min_value)
-
             return outputs
 
         @staticmethod
-        def entries_parser():
+        def data_parser():
             entries_file = open("conjunto-entrenamiento-ej2.txt", "r")
-            entries = []
+            output = FileParser.__outputs_parser()
+            data = []
+            i = 0
             for l_i in entries_file:
-                entry = list(map(float, l_i.split()))
-                # #  ver esto (!!) #
-                entry.append(1)
-                # # # # # # # # # #
-                entries.append(entry)
+                entry = []
+                entry.append(1.0)
+                entry += list(map(float, l_i.split()))
+                entry.append(output[i])
+                data.append(entry)
+                i += 1
+            return FileParser.__get_both_datas(data)
 
-            return entries
+        def __get_both_datas(data):
+            size = np.random.randint(10, 20)
+            test_data = []
+            for i in range(size):
+                entry = data[i]
+                test_data.append(entry)
+                data.remove(entry)
+            return [data, test_data]
 
-
-        @staticmethod
-        def outputs_parser():
+        def __outputs_parser():
             output_file = open("salida-esperada-ej2.txt", "r")
             outputs = []
             max_value = 0
