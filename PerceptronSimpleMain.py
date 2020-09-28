@@ -30,8 +30,8 @@ class PerceptronSimpleMain:
                 output = [-1, -1, -1, 1]
             SimplePerceptron(learning_grade, entries, output, steps).perform()
         else:
-            [data, test_data] = fp.data_parser()
-            spl = SimplePerceptronEJ2(learning_grade, data, test_data, steps, betha, FunctionsType[function], isLinear)
+            [data, test_data, min_value, max_value] = fp.data_parser()
+            spl = SimplePerceptronEJ2(learning_grade, data, test_data, max_value, min_value, steps, betha, FunctionsType[function], isLinear)
             spl.perform()
 
 

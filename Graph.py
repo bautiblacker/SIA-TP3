@@ -20,19 +20,21 @@ class Graph:
 
         plt.plot(class_one_x, class_one_y, 'ro')
         plt.plot(class_two_x, class_two_y, 'go')
-        plt.plot(x, -((weights[2] + weights[0] * x) / weights[1]), '-b')
+        plt.plot(x, -((weights[2] + weights[0] * x) / weights[1]), '-b', label='Hiperplano')
         plt.show()
 
         return
 
     @staticmethod
     def graph_no_linear(training_error_data, test_error_data):
+        # fig, ax = plt.subplots()
+        iterations = len(test_error_data)
         plt.xlabel("Iteraciones")
         plt.ylabel("Error")
         iterations = len(test_error_data)
-        
-        plt.plot(range(0, iterations), training_error_data, 'go-')
-        plt.plot(range(0, iterations), test_error_data, 'ro-')
+
+        plt.plot(range(0, len(training_error_data)), training_error_data, 'g-', label='Training Error')
+        plt.plot(range(0, len(test_error_data)), test_error_data, 'r-', label='Test Error')
         plt.show()
 
     @staticmethod

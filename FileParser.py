@@ -5,12 +5,12 @@ class FileParser:
         def _outputs_normalizer(outputs, max_value, min_value):
             for idx in  range(len(outputs)):
                 outputs[idx] = (outputs[idx] - min_value) / (max_value - min_value)
-            return outputs
+            return [outputs, min_value, max_value]
 
         @staticmethod
         def data_parser():
             entries_file = open("conjunto-entrenamiento-ej2.txt", "r")
-            output = FileParser.__outputs_parser()
+            [output, min_value, max_value] = FileParser.__outputs_parser()
             data = []
             i = 0
             for l_i in entries_file:
@@ -20,13 +20,14 @@ class FileParser:
                 entry.append(output[i])
                 data.append(entry)
                 i += 1
-            return FileParser.__get_both_datas(data)
+            return FileParser.__get_both_datas(data) + [min_value, max_value]
 
         def __get_both_datas(data):
-            size = np.random.randint(10, 20)
+            size = np.random.randint(10, 50)
             test_data = []
             for i in range(size):
-                entry = data[i]
+                idx = np.random.randint(0, len(data))
+                entry = data[idx]
                 test_data.append(entry)
                 data.remove(entry)
             return [data, test_data]
