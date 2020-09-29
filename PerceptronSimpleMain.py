@@ -9,7 +9,7 @@ from FunctionType import FunctionsType
 
 class PerceptronSimpleMain:
 
-     with open('settings.json') as config:
+     with open('/Users/nachograsso/Desktop/ITBA/SIA/SIA-TP3/SIA-TP3/settings.json') as config:
 
         configuration = json.load(config)
 

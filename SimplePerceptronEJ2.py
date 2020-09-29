@@ -13,10 +13,10 @@ class SimplePerceptronEJ2:
         self.learning_rate = learning_rate
         self.steps = steps
         self.data = data
-        self.weights = np.random.rand(len(self.data[0][:-1]))
+        self.weights = [10,10,10,10]
         self.betha = betha
         self.function = Function(function)
-        self.isLinear = isLinear
+        self.isLinear = True
         self.test_data = test_data
         self.max_value = max_value
         self.min_value = min_value
@@ -36,6 +36,9 @@ class SimplePerceptronEJ2:
         multiplier = 1.0
         if not self.isLinear:
             multiplier = self.function.calculate_derivative(self.betha, excitement)
+        # ndw = []
+        # for e in entry:
+        #     ndw.append(learning_rate * error * multiplier*e)
         delta_w = np.dot(learning_rate * error * multiplier, entry)
         return np.add(self.weights, delta_w)
 
@@ -65,27 +68,34 @@ class SimplePerceptronEJ2:
         learning_rate_variation = []
         new_learling_rate = self.learning_rate
 
-        while test_error > 0.001 and i < self.steps:
+        while error_i > 0.001 and i < self.steps:
             total_error = 0.0
+            max_error = 0.0
             for e in self.data:
                 excitement = self.get_excitement(e[:-1], self.weights)
                 prediction = self.predict(excitement)
                 if self.isLinear:
-                    error = e[-1] - prediction
+                    error =  e[-1] - prediction
                 else:
-                    desnormilized_prediction = self.desnormilize_output(prediction)
-                    desnormalized_output = self.desnormilize_output(e[-1])
-                    error = desnormalized_output - desnormilized_prediction
+                    #ACA HAY PROBLEMA
+                    error = e[-1] - prediction
+                    # desnormilized_prediction = self.desnormilize_output(prediction)
+                    # desnormalized_output = self.desnormilize_output(e[-1])
+                    # error = desnormalized_output - desnormilized_prediction
                 self.weights = self.update_weights(error, excitement, e[:-1], new_learling_rate)
-                total_error += pow(error, 2)
-            error_i = self.calculate_error(total_error)/data_size
+
+                # total_error += pow(error, 2)
+                if abs(error) > max_error: max_error = abs(error)
+            
+            error_i = max_error
+            # error_i = self.calculate_error(total_error)/data_size
             if error_i < min_error:
                     min_error = error_i
                     min_weight = self.weights
-            if len(training_error_set) > 10: new_learling_rate = self.update_learning_rate(training_error_set, new_learling_rate)
+            if len(training_error_set) % (self.steps / 100) == 0: new_learling_rate = self.update_learning_rate(training_error_set, new_learling_rate)
             learning_rate_variation.append(new_learling_rate)
             training_error_set.append(error_i)
-            test_error = self.calculate_error(self.test_perceptron(min_weight))/len(self.test_data) #ver que onda min y max para desnormalizar
+            test_error = self.test_perceptron(min_weight) #ver que onda min y max para desnormalizar
             test_error_set.append(test_error)
             i += 1
 
@@ -99,19 +109,23 @@ class SimplePerceptronEJ2:
 
     def test_perceptron(self, min_weight):
         total_test_error = 0.0
+        max_error = 0.0
         for e in self.test_data:
             excitement = self.get_excitement(e[:-1], min_weight)
             prediction = self.predict(excitement)
             if self.isLinear:
                     test_error = e[-1] - prediction
             else:
-                desnormilized_prediction = self.desnormilize_output(prediction)
-                desnormalized_output = self.desnormilize_output(e[-1])
-                test_error = desnormalized_output - desnormilized_prediction
+                test_error = e[-1] - prediction
+                # desnormilized_prediction = self.desnormilize_output(prediction)
+                # desnormalized_output = self.desnormilize_output(e[-1])
+                # test_error = desnormalized_output - desnormilized_prediction
 
-            total_test_error += pow(test_error, 2)
+            # total_test_error += pow(test_error, 2)
+            error_abs = abs(test_error)
+            if error_abs > max_error: max_error = error_abs 
 
-        return total_test_error
+        return max_error
 
 
 
