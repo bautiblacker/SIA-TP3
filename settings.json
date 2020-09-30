@@ -5,7 +5,7 @@
     "multilayer_test_qty": 5,
     "learning_rate": 0.01,
     "operation": "-",
-    "steps": 100,
+    "steps": 500,
     "betha": 0.5,
     "isLinear": "False"
 }

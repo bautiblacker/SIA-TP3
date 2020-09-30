@@ -16,7 +16,7 @@ class SimplePerceptronEJ2:
         self.data = data
         self.weights = [0.5,0.5,0.5,0.5]
         self.betha = betha
-        self.isLinear = False
+        self.isLinear = isLinear
         self.test_data = test_data
         self.max_value = max_value
         self.min_value = min_value
@@ -49,7 +49,7 @@ class SimplePerceptronEJ2:
         if all(errors_cond_up):
             new_learling_rate -= 0.0001*new_learling_rate
         elif all(errors_cond_down):
-            new_learling_rate += 0.001
+            new_learling_rate += 0.0001
         return new_learling_rate
 
     def sigmodeal_function(self, param):
@@ -65,11 +65,12 @@ class SimplePerceptronEJ2:
         i = 0
         error_i = test_error = 1
         min_error = pow(len(self.data), 5)
-        min_weight = []
+        # min_weight = []
         data_size = len(self.data)
         learning_rate_variation = []
         new_learling_rate = self.learning_rate
         error_limit = 0
+        data_test_results = []
         if self.isLinear:
             error_limit = 0.001
         else:
@@ -83,30 +84,40 @@ class SimplePerceptronEJ2:
                 prediction = self.predict(excitement)
                 if self.isLinear:
                     error =  e[-1] - prediction
+                    total_error += pow(error, 2)
                 else:
                     normalized_output = self.normalized_output(e[-1])
                     error = normalized_output - prediction
-                    # error = abs(self.desnormilize_output(error))
+                    total_error += pow(self.desnormilize_output(error), 2)
                 self.weights = self.update_weights(error, excitement, e[:-1], new_learling_rate)
-
-                total_error += pow(self.desnormilize_output(error), 2)
 
             error_i = self.calculate_error(total_error)/data_size
             if error_i < min_error:
                     min_error = error_i
                     min_weight = self.weights
             training_error_size = len(training_error_set)
-            print(training_error_size)
-            if training_error_size > 0 and training_error_size % (self.steps / 10) == 0: new_learling_rate = self.update_learning_rate(training_error_set, new_learling_rate)
+            if training_error_size > 0 and training_error_size % (self.steps / 100) == 0: new_learling_rate = self.update_learning_rate(training_error_set, new_learling_rate)
             learning_rate_variation.append(new_learling_rate)
             training_error_set.append(error_i)
-            test_error = self.test_perceptron(self.weights)
+            [test_error, data_test_results] = self.test_perceptron(self.weights)
             test_error_set.append(self.calculate_error(test_error)/len(self.test_data))
             i += 1
 
-        print(training_error_set)
-        print(test_error_set)
-        print(sorted(set(learning_rate_variation)))
+        print('------- Program Settings -------')
+        print('* Training Set size: ' + str(len(self.data)))
+        print('* Test Set size: ' + str(len(self.test_data)))
+        print('* Steps: ' + str(self.steps))
+        kind = ("Lineal" if self.isLinear else "Non Lineal")
+        print('* Perceptron Kind: ' + kind)
+        if not self.isLinear: print('* Betha: ' + str(self.betha))
+        print('---------- Results ----------')
+        print('Initial learning rate: ' + str(self.learning_rate))
+        print('Final learning rate: ' + str(new_learling_rate))
+        print('Final resultas: ')
+        print('  Output\t\tPerceptron Output')
+        for idx in range(len(self.test_data)):
+            print('|\t{:.5f}\t|\t{:.5f}\t|'.format(self.test_data[idx][-1], data_test_results[idx]))
+
         Graph.graph_no_linear(training_error_set, test_error_set, learning_rate_variation)
 
     def desnormilize_output(self, value):
@@ -118,19 +129,16 @@ class SimplePerceptronEJ2:
     def test_perceptron(self, min_weight):
         total_test_error = 0.0
         max_error = 0.0
+        data_test_results = []
         for e in self.test_data:
             excitement = self.get_excitement(e[:-1], min_weight)
             prediction = self.predict(excitement)
             if self.isLinear:
                     test_error = e[-1] - prediction
+                    data_test_results.append(prediction)
             else:
                 normalized_output = self.normalized_output(e[-1])
-                test_error = normalized_output - prediction
-                # test_error = abs(self.desnormilize_output(test_error))
-            total_test_error += pow(self.desnormilize_output(test_error), 2)
-        return total_test_error
-
-
-
-
-
+                test_error = self.desnormilize_output(normalized_output - prediction)
+                data_test_results.append(self.desnormilize_output(prediction))
+            total_test_error += pow(test_error, 2)
+        return [total_test_error, data_test_results]
