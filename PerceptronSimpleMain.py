@@ -15,7 +15,7 @@ class PerceptronSimpleMain:
         learning_rate = float(configuration["learning_rate"])
         operation = str(configuration["operation"]).upper()
         steps = int(configuration["steps"])
-        isLinear = bool(configuration["isLinear"])
+        isLinear = str(configuration["isLinear"]).upper() == "TRUE"
         betha = float(configuration["betha"])
 
         entries = [[-1, 1], [1, -1], [-1, -1], [1, 1]]
