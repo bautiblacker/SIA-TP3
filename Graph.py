@@ -27,7 +27,6 @@ class Graph:
 
     @staticmethod
     def graph_no_linear(training_error_data, test_error_data, learning_rate_variation):
-        # fig, ax = plt.subplots()
         iterations = len(test_error_data)
         plt.xlabel("Epocas")
         plt.ylabel("Error")

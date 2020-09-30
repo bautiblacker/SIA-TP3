@@ -99,7 +99,7 @@ class SimplePerceptronEJ2:
             if training_error_size > 0 and training_error_size % (self.steps / 100) == 0: new_learling_rate = self.update_learning_rate(training_error_set, new_learling_rate)
             learning_rate_variation.append(new_learling_rate)
             training_error_set.append(error_i)
-            [test_error, data_test_results] = self.test_perceptron(min_weight)
+            [test_error, data_test_results] = self.test_perceptron(self.weights)
             test_error_set.append(self.calculate_error(test_error)/len(self.test_data))
             i += 1
 
