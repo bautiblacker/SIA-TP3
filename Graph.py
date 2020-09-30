@@ -26,15 +26,24 @@ class Graph:
         return
 
     @staticmethod
-    def graph_no_linear(training_error_data, test_error_data):
+    def graph_no_linear(training_error_data, test_error_data, learning_rate_variation):
         # fig, ax = plt.subplots()
         iterations = len(test_error_data)
-        plt.xlabel("Iteraciones")
+        plt.xlabel("Epocas")
         plt.ylabel("Error")
         iterations = len(test_error_data)
+        learning_plot = []
 
+        for idx in learning_rate_variation:
+            if len(learning_plot) == 0:
+                learning_plot.append(idx + 100)
+            else:
+                learning_plot.append(idx * 100 / learning_rate_variation[0])
+
+        plt.grid(True)
         plt.plot(range(0, len(training_error_data)), training_error_data, 'g-', label='Training Error')
         plt.plot(range(0, len(test_error_data)), test_error_data, 'r-', label='Test Error')
+        plt.plot(range(0, len(learning_plot)), learning_plot, 'b-', label='Learning rate')
         plt.show()
 
     @staticmethod

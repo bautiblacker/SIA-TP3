@@ -2,14 +2,9 @@
 import numpy as np
 
 class FileParser:
-        def _outputs_normalizer(outputs, max_value, min_value):
-            for idx in  range(len(outputs)):
-                outputs[idx] = (outputs[idx] - min_value) / (max_value - min_value)
-            return [outputs, min_value, max_value]
-
         @staticmethod
         def data_parser():
-            entries_file = open("/Users/nachograsso/Desktop/ITBA/SIA/SIA-TP3/SIA-TP3/conjunto-entrenamiento-ej2.txt", "r")
+            entries_file = open("conjunto-entrenamiento-ej2.txt", "r")
             [output, min_value, max_value] = FileParser.__outputs_parser()
             data = []
             i = 0
@@ -23,7 +18,7 @@ class FileParser:
             return FileParser.__get_both_datas(data) + [min_value, max_value]
 
         def __get_both_datas(data):
-            size = 40
+            size = 20
             test_data = []
             for i in range(size):
                 idx = np.random.randint(0, len(data))
@@ -33,7 +28,7 @@ class FileParser:
             return [data, test_data]
 
         def __outputs_parser():
-            output_file = open("/Users/nachograsso/Desktop/ITBA/SIA/SIA-TP3/SIA-TP3/salida-esperada-ej2.txt", "r")
+            output_file = open("salida-esperada-ej2.txt", "r")
             outputs = []
             max_value = 0
             min_value = 10000
@@ -48,7 +43,7 @@ class FileParser:
 
         @staticmethod
         def mlp_entries_parser(rows, cols):
-            entries_file = open('/Users/nachograsso/Desktop/ITBA/SIA/SIA-TP3/SIA-TP3/TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
+            entries_file = open('TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
             entries = []
             count = 0
             e = ''

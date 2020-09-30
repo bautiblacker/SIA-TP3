@@ -4,8 +4,6 @@ import pdb
 from FileParser import FileParser as fp
 import numpy as np
 from Graph import Graph
-from Functions import Function
-from FunctionType import FunctionsType
 
 
 class SimplePerceptron:
