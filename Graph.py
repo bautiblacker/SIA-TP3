@@ -33,12 +33,12 @@ class Graph:
         plt.ylabel("Error")
         iterations = len(test_error_data)
         learning_plot = []
-
+        first = training_error_data[0]/4
         for idx in learning_rate_variation:
             if len(learning_plot) == 0:
-                learning_plot.append(idx + 100)
+                learning_plot.append(idx + first)
             else:
-                learning_plot.append(idx * 100 / learning_rate_variation[0])
+                learning_plot.append(idx * first / learning_rate_variation[0])
 
         plt.grid(True)
         plt.plot(range(0, len(training_error_data)), training_error_data, 'g-', label='Training Error')
