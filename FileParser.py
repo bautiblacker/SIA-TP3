@@ -18,7 +18,7 @@ class FileParser:
             return FileParser.__get_both_datas(data) + [min_value, max_value]
 
         def __get_both_datas(data):
-            size = 20
+            size = 10
             test_data = []
             for i in range(size):
                 idx = np.random.randint(0, len(data))
@@ -43,7 +43,7 @@ class FileParser:
 
         @staticmethod
         def mlp_entries_parser(rows, cols):
-            entries_file = open('TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
+            entries_file = open('SIA-TP3/TP3-ej3-mapa-de-pixeles-digitos-decimales.txt')
             entries = []
             count = 0
             e = ''
