@@ -1,8 +1,8 @@
 {
-    "multilayer_lr": 1,
-    "multilayer_hidden_nodes_parity": 6,
-    "multilayer_max_training_epochs": 5000,
-    "multilayer_test_qty": 5,
+    "multilayer_lr": 0.01,
+    "multilayer_hidden_nodes_parity": 3,
+    "multilayer_max_training_epochs": 10000,
+    "multilayer_training_qty": 9,
     "learning_rate": 0.01,
     "operation": "-",
     "steps": 500,
