@@ -26,7 +26,7 @@ class Graph:
         return
 
     @staticmethod
-    def graph_no_linear(training_error_data, test_error_data, learning_rate_variation):
+    def graph_no_linear(training_error_data, test_error_data, learning_rate_variation, isLinear):
         iterations = len(test_error_data)
         plt.xlabel("Epocas")
         plt.ylabel("Error")
@@ -38,11 +38,13 @@ class Graph:
                 learning_plot.append(idx + first)
             else:
                 learning_plot.append(idx * first / learning_rate_variation[0])
-
+        title = ("Linear" if isLinear else "Non Linear")
+        plt.title(title)
         plt.grid(True)
-        plt.plot(range(0, len(training_error_data)), training_error_data, 'g-', label='Training Error')
-        plt.plot(range(0, len(test_error_data)), test_error_data, 'r-', label='Test Error')
-        plt.plot(range(0, len(learning_plot)), learning_plot, 'b-', label='Learning rate')
+        a = plt.plot(range(0, len(training_error_data)), training_error_data, 'g-', label="Training Error")
+        b = plt.plot(range(0, len(test_error_data)), test_error_data, 'r-', label="Test Error")
+        c = plt.plot(range(0, len(learning_plot)), learning_plot, 'b-', label="Learning rate")
+        plt.legend()
         plt.show()
 
     @staticmethod

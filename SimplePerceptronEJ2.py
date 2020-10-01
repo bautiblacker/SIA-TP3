@@ -111,14 +111,16 @@ class SimplePerceptronEJ2:
         print('* Perceptron Kind: ' + kind)
         if not self.isLinear: print('* Betha:' + str(self.betha))
         print('---------- Results ----------')
-        print('Initial learning rate' + str(self.learning_rate))
-        print('Final learning rate' + str(new_learling_rate))
-        print('Final resultas:')
+        print('Initial learning rate: ' + str(self.learning_rate))
+        print('Final learning rate: ' + str(new_learling_rate))
+        print('Max Error: ' + str(test_error_set[0]))
+        print('Min Error: ' + str(test_error_set[-1]))
+        print('Final results: ')
         print('  Output\t\tPerceptron Output')
         for idx in range(len(self.test_data)):
             print('|\t{:.5f}\t|\t{:.5f}\t|'.format(self.test_data[idx][-1], data_test_results[idx]))
 
-        Graph.graph_no_linear(training_error_set, test_error_set, learning_rate_variation)
+        Graph.graph_no_linear(training_error_set, test_error_set, learning_rate_variation, self.isLinear)
 
     def desnormilize_output(self, value):
         return value * (self.max_value - self.min_value) + self.min_value

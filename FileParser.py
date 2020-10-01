@@ -18,7 +18,7 @@ class FileParser:
             return FileParser.__get_both_datas(data) + [min_value, max_value]
 
         def __get_both_datas(data):
-            size = 20
+            size = 10
             test_data = []
             for i in range(size):
                 idx = np.random.randint(0, len(data))
