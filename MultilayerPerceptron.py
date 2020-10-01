@@ -5,7 +5,7 @@ import numpy as np
 
 class MultilayerPerceptron:
 
-    def __init__(self, pa_entries, pa_targets, input_nodes, hidden_nodes, output_nodes, learning_rate):
+    def __init__(self, pa_entries, pa_targets, input_nodes, hidden_nodes, output_nodes, training_qty, learning_rate, iterations):
         self.input_nodes = input_nodes
         self.hidden_nodes = hidden_nodes
         self.output_nodes = output_nodes
@@ -15,8 +15,10 @@ class MultilayerPerceptron:
         self._randomize(self.bias_h)
         self.bias_o = np.zeros((output_nodes, 1))
         self.learning_rate = learning_rate
+        self.training_qty = training_qty
         self.pa_entries = pa_entries
         self.pa_targets = pa_targets
+        self.iterations = iterations
 
         #FILL WEIGHTS WITH RANDOM [-1,1] NUMBERS
         self._randomize(self.weights_ih)
@@ -26,8 +28,6 @@ class MultilayerPerceptron:
 
 
     def feed_forward(self,inputs):
-        #LOTS OF MATRIX MATH HERE
-
         # GENERATING THE HIDDEN OUTPUTS
         # inputs = inputs.transpose()
         hidden = self.weights_ih.dot(inputs)
@@ -43,6 +43,16 @@ class MultilayerPerceptron:
 
         # RETURN GUESS
         return output
+
+    def update_learning_rate(self, errors, new_learling_rate):
+        last_errors = errors[-4:]
+        errors_cond_up = [last_errors[i] < last_errors[i+1] for i in range(len(last_errors)-1)]
+        errors_cond_down = [last_errors[i] > last_errors[i+1] for i in range(len(last_errors)-1)]
+        if all(errors_cond_up):
+            new_learling_rate -= 0.01*new_learling_rate
+        elif all(errors_cond_down):
+            new_learling_rate += 0.05
+        return new_learling_rate
 
 
     def _randomize(self, matrix):
@@ -60,8 +70,13 @@ class MultilayerPerceptron:
 
 
     def train(self):
-        for i in range(10000):
-            x = random.randint(0,3)
+        error_f = []
+        new_learling_rate = self.learning_rate
+        learning_rate_variation = []
+        error_limit = 1
+        i = 0
+        while error_limit > 0.0001 and i <= self.iterations:
+            x = random.randint(0,self.training_qty)
             inputs = np.matrix(self.pa_entries[x]).transpose()
             targets = np.matrix(self.pa_targets[x]).transpose()
             # outputs = self.feed_forwar(inputs)
@@ -82,21 +97,29 @@ class MultilayerPerceptron:
             #CALCULATE THE ERROR
             #ERROR = TARGETS - OUTPUTS
             output_errors = targets - outputs
+            error_value = 0.5 * (output_errors ** 2)
+            error_f.append(error_value.item(0))
+            error_f_size = len(error_f)
+            if error_f_size > 0 and error_f_size % (self.iterations / 50) == 0: new_learling_rate = self.update_learning_rate(error_f, new_learling_rate)
+            learning_rate_variation.append(new_learling_rate)
+
+            error_limit = error_f[-1]
 
             #CALCULATE THE HIDDEN LAYER ERRORS
             w_hot = self.weights_ho.transpose()
             hidden_errors = w_hot.dot(output_errors)
+            
 
             dsigmoid_vectorized = np.vectorize(self._dsigmoid_function)
             #CALCULATE GRADIENT
             gradient_output = dsigmoid_vectorized(outputs)
             gradient_output = np.multiply(gradient_output, output_errors)
-            gradient_output = np.multiply(gradient_output, self.learning_rate)
+            gradient_output = np.multiply(gradient_output, new_learling_rate)
 
             #CALCULATE HIDDEN GRADIENT
             hidden_gradient = dsigmoid_vectorized(hidden_o)
             hidden_gradient = np.multiply(hidden_gradient,hidden_errors)
-            hidden_gradient = np.multiply(hidden_gradient,self.learning_rate)
+            hidden_gradient = np.multiply(hidden_gradient,new_learling_rate)
 
             #CALCULATE DELTAS
             hidden_t = hidden_o.transpose()
@@ -109,3 +132,6 @@ class MultilayerPerceptron:
             weight_ih_deltas = hidden_gradient.dot(inputs_t)
             self.weights_ih += weight_ih_deltas
             self.bias_h += hidden_gradient
+            i = i + 1
+            # print(error_f)
+        # print(learning_rate_variation)
