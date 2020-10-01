@@ -28,9 +28,9 @@ class ParityResolver:
 
         mp.train()
         # plot_entries = []
-        # for pb_e in pb_entries:
-        #     plot_entries.append(mp.feed_forward(np.matrix(pb_e).transpose()).item(0))
-        #     print(mp.feed_forward(np.matrix(pb_e).transpose()))
+        for pb_e in pb_entries:
+            # plot_entries.append(mp.feed_forward(np.matrix(pb_e).transpose()).item(0))
+            print(mp.feed_forward(np.matrix(pb_e).transpose()))
 
         # Graph.graph_multilayer_perceptron(plot_entries)
 

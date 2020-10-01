@@ -8,7 +8,7 @@ import json
 
 
 class XorResolver:
-    with open('SIA-TP3/settings.json') as config:
+    with open('settings.json') as config:
 
         configuration = json.load(config)
 
@@ -28,6 +28,7 @@ class XorResolver:
         #     mp.train(np.matrix(pa_entries[x]).transpose(),np.matrix(pa_targets[x]).transpose())
 
         mp.train()
+        
         print(mp.feed_forward(np.matrix(('1 0')).transpose()))
         print(mp.feed_forward(np.matrix(('0 1')).transpose()))
         print(mp.feed_forward(np.matrix(('0 0')).transpose()))

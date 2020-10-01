@@ -2,7 +2,7 @@
     "multilayer_lr": 0.01,
     "multilayer_hidden_nodes_parity": 3,
     "multilayer_max_training_epochs": 10000,
-    "multilayer_training_qty": 9,
+    "multilayer_training_qty": 5,
     "learning_rate": 0.01,
     "operation": "-",
     "steps": 500,
