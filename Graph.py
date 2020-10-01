@@ -48,15 +48,18 @@ class Graph:
         plt.show()
 
     @staticmethod
-    def graph_multilayer_perceptron(entries):
-        x = np.linspace(-0.05,1,10)
-        y = 0*x + 0.5
-        plt.plot(x,y, '--r')
-        x_points = []
-        y_points = []
-        for e in entries:
-            x_points.append(e)
-            y_points.append(round(e))
-        plt.plot(x_points, y_points, 'go')
+    def graph_multilayer_perceptron(entries, test):
+        # x = np.linspace(-0.05,1,10)
+        # y = 0*x + 0.5
+        # plt.plot(x,y, '--r')
+        # x_points = []
+        # y_points = []
+        # for e in entries:
+        #     x_points.append(e)
+        #     y_points.append(round(e))
+        # plt.plot(x_points, y_points, 'go')
+        # plt.show()
+        plt.plot(range(0, len(entries)), entries, 'g-')
+        plt.plot(range(0, len(test)), test, 'r-')
         plt.show()
 

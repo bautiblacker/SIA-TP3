@@ -7,7 +7,7 @@ from MultilayerPerceptron import MultilayerPerceptron
 from Graph import Graph
 class ParityResolver:
 
-    with open('SIA-TP3/settings.json') as config:
+    with open('settings.json') as config:
 
         configuration = json.load(config)
 
@@ -27,13 +27,12 @@ class ParityResolver:
         #     mp.train(np.matrix(pb_entries[x]).transpose(),np.matrix(pb_targets[x]).transpose())
 
         mp.train()
+        # plot_entries = []
+        # for pb_e in pb_entries:
+        #     plot_entries.append(mp.feed_forward(np.matrix(pb_e).transpose()).item(0))
+        #     print(mp.feed_forward(np.matrix(pb_e).transpose()))
 
-        plot_entries = []
-        for pb_e in pb_entries:
-            plot_entries.append(mp.feed_forward(np.matrix(pb_e).transpose()).item(0))
-            print(mp.feed_forward(np.matrix(pb_e).transpose()))
-
-        Graph.graph_multilayer_perceptron(plot_entries)
+        # Graph.graph_multilayer_perceptron(plot_entries)
 
 
 
